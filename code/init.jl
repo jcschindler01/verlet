@@ -37,6 +37,10 @@ function corner(N; l=0.1)
 	return k, x, y, vx, vy
 end
 
+function normalize_ics(xy,vxy)
+	vrms = sqrt(sum(vxy))
+end
+
 function headstring(io,N)
 	## print
 	for dat in ("NOTES", "N", "dT", "dt", "dtt", "t")

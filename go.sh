@@ -30,5 +30,5 @@ julia code/verlet.jl -dT $dT -nsteps $nsteps -div $div
 echo "animate"
 python3 code/animate.py
 echo "view"
-viewnior code/out.gif
+viewnior out.gif
 

@@ -1,22 +1,42 @@
 
 
+#= 
+Proper way to go from x,y to xy and back.
+	xy  = hcat(x,y)
+	x,y = xy[:,1], xy[:,2]
+The joint one has the form
+	xy[N,2]
+so that
+	xy[k,:]
+is the vector position of kth particle.
+=#
 
+const mass = 1
 
-function a(x,y; wall=true, interact=false)
-	## init
-	ax, ay = zeros(length(x)), zeros(length(x))
-	## wall
-	if wall==true
-		ax .+= -(2*(x .- .5)) .^ 17
-		ay .+= -(2*(y .- .5)) .^ 17
+function a(x,y; forces=[Fwall])
+	##
+	xy = hcat(x,y)
+	a = zeros(size(xy))
+	##
+	for force in forces
+		a .+= force(xy) / mass
 	end
-	## interact
-	if interact==true
-		ax .+= -(x .- x[1])
-		ay .+= -(y .- y[1])
-	end
-	## return
-	return ax, ay
+	## ax, ay = a
+	return a[:,1], a[:,2]
 end
+
+function z(xy)
+	## twice the vector displacement from center of box at x, y = (.5,.5).
+	return 2 .* (xy .- .5)
+end
+
+function Fwall(xy)
+	##
+	F = -z(xy) .^ 17
+	## 
+	return F
+end
+
+
 
 
