@@ -24,7 +24,7 @@ echo "N = $N"
 
 echo " "
 echo "init"
-julia code/init.jl
+julia code/init.jl -N $N
 echo "verlet"
 julia code/verlet.jl -dT $dT -nsteps $nsteps -div $div
 echo "animate"
