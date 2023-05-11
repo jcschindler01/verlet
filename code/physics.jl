@@ -25,14 +25,17 @@ function a(x,y; forces=[Fwall])
 	return a[:,1], a[:,2]
 end
 
-function z(xy)
-	## twice the vector displacement from center of box at x, y = (.5,.5).
-	return 2 .* (xy .- .5)
+function z(xy; L=.9)
+	## scaled vector displacement from center of box at x, y = (.5,.5).
+	return (xy .- .5)/(.5*L)
 end
 
 function Fwall(xy)
 	##
-	F = -z(xy) .^ 17
+	fpoly(z; u=10) = - z .^ (2u-1)
+	fexp(z) = - sinh.(z)
+	##
+	F = fpoly(z(xy); u=10)
 	## 
 	return F
 end

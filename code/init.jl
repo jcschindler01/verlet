@@ -1,5 +1,5 @@
 
-# Usage: Run as script
+# Usage: julia init.jl -N 50 -i corner
 
 include("./quickprint.jl")
 include("./ics.jl")
