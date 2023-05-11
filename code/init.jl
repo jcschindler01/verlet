@@ -77,14 +77,20 @@ end
 ############ run main #############
 ## defaults if no input
 NX = 3
+ic = "corner"
 ## check for input
 args = ARGS
 for opt in 1:length(args)
-	if args[opt]=="-N"
+	if args[opt] in ("-N",)
 		global NX = parse(Int, args[opt+1])
 	end
+	if args[opt] in ("-i", "-ic")
+		global ic = args[opt+1]
+	end
 end
+## ic string to function
+ic = getfield(Main, Symbol(ic))
 ## run
-main(;N=1*NX)
+main(;N=1*NX, ic=ic)
 ###################################
 
