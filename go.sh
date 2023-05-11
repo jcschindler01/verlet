@@ -24,11 +24,11 @@ echo "N = $N"
 
 echo " "
 echo "init"
-julia ./init.jl
+julia code/init.jl
 echo "verlet"
-julia ./verlet.jl -dT $dT -nsteps $nsteps -div $div
+julia code/verlet.jl -dT $dT -nsteps $nsteps -div $div
 echo "animate"
-python3 animate.py
+python3 code/animate.py
 echo "view"
-viewnior out.gif
+viewnior code/out.gif
 
