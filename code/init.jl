@@ -2,6 +2,7 @@
 # Usage: Run as script
 
 include("./quickprint.jl")
+include("./ics.jl")
 
 function help()
 	helpstring = 
@@ -25,20 +26,17 @@ function help()
 	return helpstring
 end
 
-function corner(N; l=0.1)
-	k  = 1:N
-	x  = .1 .* rand(Float64, N)
-	y  = .1 .* rand(Float64, N)
-	vx = 1 .+ 0 .* .1 .* rand(Float64, N)
-	vy = 1 .+ 0 .* .5 .* rand(Float64, N)
-	vrms = sqrt(sum(vx.^2 + vy.^2)/N)
-	vx /= vrms
-	vy /= vrms
-	return k, x, y, vx, vy
-end
-
 function normalize_ics(xy,vxy)
-	vrms = sqrt(sum(vxy))
+	##
+	N = length(xy[:,1])
+	k = 1:N
+	vrms = sqrt(sum(vxy .^ 2)/N)
+	vxy = vxy / vrms
+	##
+	x, y = xy[:,1], xy[:,2]
+	vx, vy = vxy[:,1], vxy[:,2]
+	##
+	return k, x, y, vx, vy
 end
 
 function headstring(io,N)
@@ -66,11 +64,13 @@ function datastring(io, N, k, x, y, vx, vy)
 	print(io,"\n")
 end
 
-function main(;fname="data.txt", N=3, ic=corner)
+function main(;fname="data.txt", N=3, ic=random)
+	## initial data
+	data = normalize_ics(ic(N)...)
 	## go
 	open(fname, "w") do io
 		headstring(io, N)
-		datastring(io, N, ic(N)...)
+		datastring(io, N, data...)
 	end
 end
 
