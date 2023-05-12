@@ -4,9 +4,9 @@
 
 dT=2
 nsteps=50
-div=100
-N=50
-ic="random"
+div=1000
+N=100
+ic="chain"
 
 while getopts T:n:d:N:i: opt; do
     case $opt in

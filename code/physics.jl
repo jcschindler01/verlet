@@ -25,21 +25,19 @@ function a(x,y; forces=[Fwall])
 	return a[:,1], a[:,2]
 end
 
-function z(xy; L=.9)
-	## scaled vector displacement from center of box at x, y = (.5,.5).
-	return (xy .- .5)/(.5*L)
-end
+
+## helpers
+H(xy) = 0.5*(sign.(xy).+1)   ## heaviside theta
+z(xy; L=1) = (xy.-.5)/(.5*L) ## displacement from center
+g(xy) = H.(xy).*(exp.(xy).-1) ## piecewise zero exponential
+glin(xy) = H.(xy).*xy
+
+## walls
+fpoly(z; u=10) = -z.^(2*u-1) ## polynomial wall function
+fexp(xy; l=1e-4, w=0) = g(-(xy.-w)/l) .- g((xy.-(1-w))/l)
+felastic(xy; l=.1e-6) = glin(-xy/l) .- glin((xy.-1)/l)
 
 function Fwall(xy)
-	##
-	fpoly(z; u=10) = - z .^ (2u-1)
-	fexp(z) = - sinh.(z)
-	##
-	F = fpoly(z(xy); u=10)
-	## 
-	return F
+	return felastic(xy; l=1e-6)
 end
-
-
-
 
