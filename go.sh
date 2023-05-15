@@ -5,7 +5,7 @@
 dT=2
 nsteps=50
 div=1000
-N=100
+N=5
 ic="chain"
 
 while getopts T:n:d:N:i: opt; do
