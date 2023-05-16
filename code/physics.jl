@@ -76,7 +76,7 @@ U = sum_{ij} (E0/2) * V(r_ij) * (1-delta_ij).
 
 
 ## hard sphere repulsion potential
-const ra = 1e-3
+const ra = 1e-1
 const rb = 1e-9
 const p0 = 2
 const e0 = 1
@@ -93,11 +93,16 @@ function Finteraction(xy)
 			if i != j
 				xyij = xy[j,:] .- xy[i,:]
 				rij  = norm(xyij)
-				f[i,:] .+= -(E0/2) * V0prime(rij) .* (xyij./rij)
+				if rij > 0
+					f[i,:] .+= (E0/2) * V0prime(rij) .* (xyij./rij)
+				else
+					f[i,:] .+= 0
+				end
 			end
 		end
 	end
 	return f
+
 end
 
 

@@ -2,11 +2,11 @@
 
 # usage: go.sh -N 10 -T dT -n nsteps -d div 
 
-dT=2
+dT=10
 nsteps=50
 div=1000
-N=5
-ic="chain"
+N=6
+ic="stillcircle"
 
 while getopts T:n:d:N:i: opt; do
     case $opt in
