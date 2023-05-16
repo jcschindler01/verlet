@@ -26,15 +26,10 @@ function help()
 	return helpstring
 end
 
-function normalize_ics(xy,vxy; vnorm=false)
+function normalize_ics(xy,vxy)
 	##
 	N = length(xy[:,1])
 	k = 1:N
-	vrms = sqrt(sum(vxy .^ 2)/N)
-	if vnorm==true
-		vxy = vxy / vrms
-	end
-	##
 	x, y = xy[:,1], xy[:,2]
 	vx, vy = vxy[:,1], vxy[:,2]
 	##
